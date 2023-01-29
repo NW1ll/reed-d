@@ -19,7 +19,10 @@ export default defineComponent({
 
 <style lang="less">
 .rd-btn {
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 50px;
+  span {
+    color: red;
+  }
 }
 </style>
