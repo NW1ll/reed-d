@@ -16,8 +16,8 @@
       "webpack-env"
     ],
     "paths": {
-      "@/*": [
-        "src/*"
+      "~/*": [
+        "components/*"
       ]
     },
     "lib": [
@@ -28,9 +28,13 @@
     ]
   },
   "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue",
+    "examples/**/*.ts",
+    "examples/**/*.tsx",
+    "examples/**/*.vue",
+    "components/**/*.ts",
+    "components/**/*.tsx",
+    "components/**/*.vue",
+    "typings/**/*.ts",
     "tests/**/*.ts",
     "tests/**/*.tsx"
   ],

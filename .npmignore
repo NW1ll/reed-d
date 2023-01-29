@@ -1,0 +1,15 @@
+.idea
+.vscode
+build/
+docs/
+components/
+public/
+node_modules/
+typings/
+babel.config.js
+tsconfig.json
+eslint.json
+vue.config.js
+.gitignore
+.browserslist
+*.map

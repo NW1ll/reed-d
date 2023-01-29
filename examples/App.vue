@@ -4,6 +4,7 @@
     <router-link to="/about">About</router-link>
   </nav>
   <router-view />
+  <r-Button></r-Button>
 </template>
 
 <style lang="less">
