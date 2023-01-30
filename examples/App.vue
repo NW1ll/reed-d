@@ -5,6 +5,10 @@
   </nav>
   <router-view />
   <r-Button>确认</r-Button>
+  <hr />
+  <g-button btnType="default">提交</g-button>
+  <g-button btnType="success">提交</g-button>
+  <g-button btnType="warning">提交</g-button>
 </template>
 
 <style lang="less">
