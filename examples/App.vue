@@ -4,7 +4,7 @@
     <router-link to="/about">About</router-link>
   </nav>
   <router-view />
-  <r-Button>确认</r-Button>
+  <r-Button theme="error">确认</r-Button>
   <hr />
   <g-button btnType="default">提交</g-button>
   <g-button btnType="success">提交</g-button>

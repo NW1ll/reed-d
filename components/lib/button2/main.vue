@@ -23,7 +23,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .btn2 {
   margin: 10px;
   border-width: 0;

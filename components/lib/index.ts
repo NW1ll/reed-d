@@ -1,13 +1,13 @@
 import { App } from "vue";
-import rButton from "./button/index";
-import gButton from "./button2/index";
-const components = [rButton, gButton];
+import rButton from "./button/main.vue";
+import gButton from "./button2/main.vue";
+const components = [gButton, rButton];
 const install = (app: App): void => {
   components.map((component) => {
     app.component(component.name, component);
   });
 };
-export { rButton, gButton };
+export { gButton, rButton };
 
 export default {
   install,
