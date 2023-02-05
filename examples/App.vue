@@ -4,11 +4,12 @@
     <router-link to="/about">About</router-link>
   </nav>
   <router-view />
-  <r-Button theme="error">确认</r-Button>
+  <RdButton theme="error">确认</RdButton>
   <hr />
   <g-button btnType="default">提交</g-button>
   <g-button btnType="success">提交</g-button>
   <g-button btnType="warning">提交</g-button>
+  <rd-select></rd-select>
 </template>
 
 <style lang="less">
@@ -33,3 +34,7 @@ nav {
   }
 }
 </style>
+<script setup lang="ts">
+import RdSelect from "~/lib/select/main.vue";
+import RdButton from "~/lib/button/main.vue";
+</script>
