@@ -9,9 +9,15 @@
   <g-button btnType="default">提交</g-button>
   <g-button btnType="success">提交</g-button>
   <g-button btnType="warning">提交</g-button>
+  <rd-avatar :padding='5' shade imgSrc="http://8.142.19.67:3000/images/cat1.jpg"/>
+  <rd-avatar :padding='2' shade imgSrc="http://8.142.19.97:3000/images/cat.jpg"/>
+  <rd-avatar :padding='2' shade shape="square" imgSrc="http://8.142.19.67:3000/images/cat2.jpg"/>
+  <rd-avatar size="small" bg="green">Tom</rd-avatar>
+  <rd-avatar bg="pink">Alen</rd-avatar>
+  <rd-avatar bg="blue">Jack</rd-avatar>
 </template>
 
-<style lang="less">
+<style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

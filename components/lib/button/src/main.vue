@@ -17,7 +17,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="less">
+<style lang="scss">
 .rd-btn {
   width: 80px;
   height: 50px;
