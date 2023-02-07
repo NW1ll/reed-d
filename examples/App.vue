@@ -9,14 +9,108 @@
   <g-button btnType="default">提交</g-button>
   <g-button btnType="success">提交</g-button>
   <g-button btnType="warning">提交</g-button>
-  <rd-avatar :padding='5' shade imgSrc="http://8.142.19.67:3000/images/cat1.jpg"/>
+  <!-- <rd-avatar :padding='5' shade imgSrc="http://8.142.19.67:3000/images/cat1.jpg"/>
   <rd-avatar :padding='2' shade imgSrc="http://8.142.19.97:3000/images/cat.jpg"/>
   <rd-avatar :padding='2' shade shape="square" imgSrc="http://8.142.19.67:3000/images/cat2.jpg"/>
   <rd-avatar size="small" bg="green">Tom</rd-avatar>
   <rd-avatar bg="pink">Alen</rd-avatar>
-  <rd-avatar bg="blue">Jack</rd-avatar>
+  <rd-avatar bg="blue">Jack</rd-avatar> -->
+  <rd-table :columns="columns" :dataSource="data" strip>
+    <template #headerCell="{column}">
+      <template v-if="column.key=='name'">
+        <span>😊{{column.title}}</span>
+      </template>
+    </template>
+    <template #bodyCell="{column,text,index,record}">
+      <template v-if="column.key=='name'">
+        <a href="">{{text}}</a>
+      </template>
+       <template v-if="column.key=='action'">
+      <button @click="edit(record,index)">编辑</button>
+      <button @click="del(record,index)">删除</button>
+    </template>
+    </template>
+   
+  </rd-table>
 </template>
-
+<script setup lang='ts'>
+import {reactive} from 'vue'
+const columns = [
+  {
+    title: 'Name',
+    dataIndex: 'name',
+    key: 'name',
+    sticky:true
+  },
+  {
+    title: 'Age',
+    dataIndex: 'age',
+    key: 'age',
+  },
+  {
+    title: 'Address',
+    dataIndex: 'address',
+    key: 'address',
+  },
+  {
+    title: 'action',
+    key: 'action',
+    sticky:true
+  }
+];
+const datas = [
+  {
+    key: '1',
+    name: 'John Brown',
+    age: 32,
+    address: 'New York No. 1 Lake Park',
+  },
+  {
+    key: '2',
+    name: 'Jim Green',
+    age: 42,
+    address: 'London No. 1 Lake Park',
+  },
+  {
+    key: '3',
+    name: 'Joe Black',
+    age: 32,
+    address: 'Sidney No. 1 Lake Park',
+  },
+  {
+    key: '4',
+    name: 'Joe Green',
+    age: 35,
+    address: 'Sidney No. 1 Lake Park',
+  },
+  {
+    key: '5',
+    name: 'Joe Json',
+    age: 37,
+    address: 'Sidney No. 1 Lake Park',
+  },
+  {
+    key: '6',
+    name: 'Joe Jackson',
+    age: 39,
+    address: 'Sidney No. 1 Lake Park',
+  },
+];
+const data = reactive(datas)
+type Data = {
+  key: string,
+  name: string,
+  age: number,
+  address: string
+}
+const edit = (record:Data,index:number) => {
+  console.log(record,index)
+  record.age=18
+}
+const del = (record:Data,index:number) => {
+  console.log(record,index)
+}
+</script>
 <style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
