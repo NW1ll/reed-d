@@ -30,6 +30,41 @@
       <button @click="del(record,index)">删除</button>
     </template>
     </template>
+    <template #footer><h4>表尾</h4></template>
+  </rd-table>
+  <rd-table :columns="columns" :dataSource="data" :width="600" strip>
+    <template #headerCell="{column}">
+      <template v-if="column.key=='name'">
+        <span>😊{{column.title}}</span>
+      </template>
+    </template>
+    <template #bodyCell="{column,text,index,record}">
+      <template v-if="column.key=='name'">
+        <a href="">{{text}}</a>
+      </template>
+       <template v-if="column.key=='action'">
+      <button @click="edit(record,index)">编辑</button>
+      <button @click="del(record,index)">删除</button>
+    </template>
+    </template>
+   
+  </rd-table>
+  <hr>
+  <rd-table :columns="columns" :dataSource="data"  :height="200" strip>
+    <template #headerCell="{column}">
+      <template v-if="column.key=='name'">
+        <span>😊{{column.title}}</span>
+      </template>
+    </template>
+    <template #bodyCell="{column,text,index,record}">
+      <template v-if="column.key=='name'">
+        <a href="">{{text}}</a>
+      </template>
+       <template v-if="column.key=='action'">
+      <button @click="edit(record,index)">编辑</button>
+      <button @click="del(record,index)">删除</button>
+    </template>
+    </template>
    
   </rd-table>
 </template>
@@ -40,7 +75,7 @@ const columns = [
     title: 'Name',
     dataIndex: 'name',
     key: 'name',
-    sticky:true
+    width: 300
   },
   {
     title: 'Age',
@@ -51,11 +86,12 @@ const columns = [
     title: 'Address',
     dataIndex: 'address',
     key: 'address',
+    width: 300
   },
   {
     title: 'action',
     key: 'action',
-    sticky:true
+    width: 300
   }
 ];
 const datas = [
