@@ -15,6 +15,44 @@
   <rd-avatar size="small" bg="green">Tom</rd-avatar>
   <rd-avatar bg="pink">Alen</rd-avatar>
   <rd-avatar bg="blue">Jack</rd-avatar> -->
+   <rd-table :columns="columns" :dataSource="[]" loading strip>
+    <template #headerCell="{column}">
+      <template v-if="column.key=='name'">
+        <span>😊{{column.title}}</span>
+      </template>
+    </template>
+    <template #bodyCell="{column,text,index,record}">
+      <template v-if="column.key=='name'">
+        <a href="">{{text}}</a>
+      </template>
+       <template v-if="column.key=='action'">
+      <button @click="edit(record,index)">编辑</button>
+      <button @click="del(record,index)">删除</button>
+    </template>
+    </template>
+    <template #footer><h4>表尾</h4></template>
+    <template #title><h4>标题</h4></template>
+  </rd-table>
+  <hr>
+  <rd-table :columns="columns" :dataSource="[]" strip>
+    <template #headerCell="{column}">
+      <template v-if="column.key=='name'">
+        <span>😊{{column.title}}</span>
+      </template>
+    </template>
+    <template #bodyCell="{column,text,index,record}">
+      <template v-if="column.key=='name'">
+        <a href="">{{text}}</a>
+      </template>
+       <template v-if="column.key=='action'">
+      <button @click="edit(record,index)">编辑</button>
+      <button @click="del(record,index)">删除</button>
+    </template>
+    </template>
+    <template #footer><h4>表尾</h4></template>
+    <template #title>标题</template>
+  </rd-table>
+  <hr>
   <rd-table :columns="columns" :dataSource="data" strip>
     <template #headerCell="{column}">
       <template v-if="column.key=='name'">
@@ -31,7 +69,9 @@
     </template>
     </template>
     <template #footer><h4>表尾</h4></template>
+    <template #title><h4>标题</h4></template>
   </rd-table>
+  <hr>
   <rd-table :columns="columns" :dataSource="data" :width="600" strip>
     <template #headerCell="{column}">
       <template v-if="column.key=='name'">
