@@ -110,6 +110,13 @@
 </template>
 <script setup lang='ts'>
 import {reactive} from 'vue'
+type TableData = {
+  key:string;
+  name:string;
+  sex:string;
+  age:number;
+  address:string;
+}
 const columns = [
   {
     title: 'Name',
@@ -118,9 +125,25 @@ const columns = [
     width: 300
   },
   {
+    title: 'Sex',
+    dataIndex: 'sex',
+    key: 'sex',
+    width:200,
+    filters: [
+      {text: 'man', value: 'man'},
+      {text: 'femal', value: 'femal'}
+    ],
+    onFilter: (value: string, record: TableData) => {
+      return record.sex===value
+    }
+  },
+  {
     title: 'Age',
     dataIndex: 'age',
     key: 'age',
+    sort: (arg1:TableData, arg2:TableData) => {
+      return arg1.age-arg2.age
+    }
   },
   {
     title: 'Address',
@@ -138,36 +161,42 @@ const datas = [
   {
     key: '1',
     name: 'John Brown',
+    sex:'man',
     age: 32,
     address: 'New York No. 1 Lake Park',
   },
   {
     key: '2',
     name: 'Jim Green',
+    sex: 'femal',
     age: 42,
     address: 'London No. 1 Lake Park',
   },
   {
     key: '3',
     name: 'Joe Black',
+    sex: 'man',
     age: 32,
     address: 'Sidney No. 1 Lake Park',
   },
   {
     key: '4',
     name: 'Joe Green',
+    sex: 'femal',
     age: 35,
     address: 'Sidney No. 1 Lake Park',
   },
   {
     key: '5',
     name: 'Joe Json',
+    sex: 'man',
     age: 37,
     address: 'Sidney No. 1 Lake Park',
   },
   {
     key: '6',
     name: 'Joe Jackson',
+    sex: 'man',
     age: 39,
     address: 'Sidney No. 1 Lake Park',
   },

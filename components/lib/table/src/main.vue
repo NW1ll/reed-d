@@ -14,14 +14,36 @@
                     </tr>
                     <tr>
                         <th v-for="(item,index) in columns" :key="item.key"
+                        :style="item?.sort?'display:flex;align-items:center;justify-content:center':''"
                         :class="index==0&&width?'colsticky':''">
                             <slot name="headerCell" :title="item.title" :column="item">
                                 {{item.title}}
                             </slot>
+                            <span v-if="item?.filters" class="iconfont icon-shaixuan"
+                             :style="isFilt?'color:black':''">
+                                <div class="pop">
+                                    <rd-pop :width="100">
+                                        <template v-for="(elem,index) in item.filters">
+                                        <input type="checkbox" @click="getFiltWords" :value="elem.value"/>&nbsp;<span style="font-weight:normal">{{elem.text}}</span><br>
+                                        </template>
+                                        <hr>
+                                        <button style="margin-right:5px;padding:2px;margin-top:3px">重置</button>
+                                        <button style="padding:2px;margin-top:3px" @click="filt()">确定</button>
+                                    </rd-pop>
+                                </div>
+                            </span>
+                            <span style="display:flex;flex-direction:column" v-if="item?.sort">
+                                <span :style="sortOrder=='asc'?'color:black':''" 
+                                class="iconfont icon-sanjiaoxing_shang-copy"
+                                @click="ascend(item)"></span>
+                                <span :style="sortOrder=='desc'?'color:black':''" 
+                                class="iconfont icon-sanjiaoxing_shang"
+                                @click="descend(item)"></span>
+                            </span>
+                            
                         </th>
                     </tr>
-                </thead>
-                
+                </thead>        
         </table>
         <div class="body-box" :style="styles">
             <table :class="'body'+(strip?' strip':'')">
@@ -80,10 +102,12 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, PropType, computed, ref } from 'vue'
+import { defineComponent, PropType, computed, ref, reactive } from 'vue'
 import { ColumnItem, DataSource } from './types'
+import rdPop from './pop.vue'
 export default defineComponent({
     name: 'rdTable',
+    components: {rdPop},
     props: {
         columns: { //列的配置项
             type: Array as PropType<Partial<ColumnItem>[]>,
@@ -108,7 +132,9 @@ export default defineComponent({
         }
     },
     setup(props){
-        const { columns, dataSource, strip, width, height, loading } = props
+        const { columns,strip, width, height, loading } = props
+        const dataSource = reactive(props.dataSource)
+        const nativeData = JSON.parse(JSON.stringify(dataSource)) //拷贝一份原生的数据保存
         const totalWidth = computed(() => {
            return columns?.reduce((pre,now) => {
             if(now?.width)
@@ -137,7 +163,30 @@ export default defineComponent({
             }
             return {width:totalWidth.value+'px'}
         })
-    
+        const sortOrder = ref<'asc'|'desc'|''>('');
+        const isFilt = ref<boolean>(false);
+        const ascend = (item:ColumnItem) => {
+            sortOrder.value='asc'
+            dataSource.sort(item.sort)
+        }
+        const descend = (item:ColumnItem) => {
+            sortOrder.value='desc'
+            dataSource.sort(item.sort).reverse()
+        }
+        const filtWords: string[] = []
+        const getFiltWords = (e:InputEvent) => {
+            const dom: any = e.target
+            if(dom.checked){
+                filtWords.push(dom.value)
+            }else{
+                let index = filtWords.indexOf(dom.value)
+                filtWords.splice(index,1);
+            }
+        }
+        const filt = (item:ColumnItem) => {
+            isFilt.value = true
+            //筛选等于filtWords中的数据
+        } 
         return {
             columns,
             dataSource,
@@ -147,7 +196,13 @@ export default defineComponent({
             width,
             height,
             totalWidth,
-            loading
+            loading,
+            sortOrder,
+            ascend,
+            descend,
+            filt,
+            isFilt,
+            getFiltWords
         }
     }
 
@@ -155,6 +210,28 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import './assets/css/iconfont.css';
+.iconfont{
+    display: inline-block;
+    position: relative;
+    font-size: 20px;
+    margin-left:25px;
+    color:#a9a7a7;
+    &:hover{
+        color:black;
+        cursor: pointer;
+        .pop{
+            visibility: visible;
+        }
+
+    }
+    .pop{
+        position:absolute;
+        z-index: 20;
+        bottom: -130px;
+        visibility: hidden;
+    }
+}
 *{
     padding:0;
     margin:0;
@@ -162,6 +239,10 @@ export default defineComponent({
 .rd-table{
     position: relative;
     border-bottom: 1px solid #F0F0F0;
+    .flex{
+        display: flex;
+        align-items: center;
+    }
     .header{
     thead{
             position: sticky;
@@ -220,6 +301,7 @@ export default defineComponent({
         }
     }
     .colsticky{
+            z-index:100;
             position:sticky;
              left: 0%;
              border-right: none !important;
