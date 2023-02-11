@@ -3,16 +3,18 @@
         <table :class="'header'+(height?' headsticky':'')" 
         :style="{width:totalWidth+'px'}">
                 <colgroup>
+                <col v-if="$slots.expandeRowRender" style="width:85px"/>
                 <col v-for="(item,index) in columns" 
                         :style="{width:(item?.width?item.width:200)+'px'}"/>
                 </colgroup>
                 <thead>
                     <tr>
-                       <th :colspan="columns.length" style="padding:0px;border:none">
+                       <th :colspan="columns.length+1" style="padding:0px;border:none">
                         <slot name="title"></slot>
                         </th>  
                     </tr>
                     <tr>
+                        <th v-if="$slots.expandeRowRender"></th>
                         <th v-for="(item,index) in columns" :key="item.key"
                         :style="item?.sort?'display:flex;align-items:center;justify-content:center':''"
                         :class="index==0&&width?'colsticky':''">
@@ -27,8 +29,8 @@
                                         <input type="checkbox" @click="getFiltWords" :value="elem.value"/>&nbsp;<span style="font-weight:normal">{{elem.text}}</span><br>
                                         </template>
                                         <hr>
-                                        <button style="margin-right:5px;padding:2px;margin-top:3px">重置</button>
-                                        <button style="padding:2px;margin-top:3px" @click="filt()">确定</button>
+                                        <button style="margin-right:5px;padding:2px;margin-top:3px" @click="reset">重置</button>
+                                        <button style="padding:2px;margin-top:3px" @click="filt(item)">确定</button>
                                     </rd-pop>
                                 </div>
                             </span>
@@ -48,23 +50,34 @@
         <div class="body-box" :style="styles">
             <table :class="'body'+(strip?' strip':'')">
                     <colgroup>
+                        <col v-if="$slots.expandeRowRender" style="width:50px"/>
                         <col v-for="(item,index) in columns" 
                         :style="{width:(item?.width?item.width:200)+'px'}"/>
                     </colgroup>
                     <template v-if="!loading">
                         <tbody v-if="dataSource.length>0">
-                        <tr v-for="(data,index) in dataSource" :key="index">
-                            <td v-for="(item,index1) in columns" :key="item.key"
-                             :class="index1==0&&width?'colsticky':''">
-                                <slot name="bodyCell" 
-                                :index="index"
-                                :text="data[item?.dataIndex]" 
-                                :record="data" 
-                                :column="item">
-                                    {{data[item?.dataIndex]}}
-                                </slot>
-                            </td>
-                        </tr>
+                        <template  v-for="(data,index) in dataSource" :key="index">
+                            <tr>
+                                <td v-if="$slots.expandeRowRender">
+                                    <span @click="expande($event,data)" class="iconfont icon-zhankai1" style="font-size:16px"></span>
+                                </td>
+                                <td v-for="(item,index1) in columns" :key="item.key"
+                                :class="index1==0&&width?'colsticky':''">
+                                    <slot name="bodyCell" 
+                                    :index="index"
+                                    :text="data[item?.dataIndex]" 
+                                    :record="data" 
+                                    :column="item">
+                                        {{data[item?.dataIndex]}}
+                                    </slot>
+                                </td>
+                            </tr>
+                            <tr v-if="$slots.expandeRowRender&&data.expand">
+                                <td :colspan="columns.length+1">
+                                    <slot name="expandeRowRender" :record="data"></slot>
+                                </td>
+                            </tr>
+                        </template>   
                     </tbody>
                     <tbody v-else style="text-align:center">
                         <tr>
@@ -93,7 +106,7 @@
                     </tbody>
                     <tfoot>
                        <tr>
-                        <th colspan="4"><slot name="footer"></slot></th>
+                            <th :colspan="columns.length"><slot name="footer"></slot></th>
                         </tr> 
                     </tfoot>
             </table>
@@ -131,16 +144,22 @@ export default defineComponent({
             type: Boolean as PropType<boolean>
         }
     },
-    setup(props){
+    setup(props,{slots}){
+        console.log(slots.bodyCell)
         const { columns,strip, width, height, loading } = props
         const dataSource = reactive(props.dataSource)
         const nativeData = JSON.parse(JSON.stringify(dataSource)) //拷贝一份原生的数据保存
         const totalWidth = computed(() => {
-           return columns?.reduce((pre,now) => {
-            if(now?.width)
-                return pre+now.width
-            return pre+100
-           },0)
+            let w;
+            w = columns?.reduce((pre,now) => {
+                if(now?.width)
+                    return pre+now.width
+                return pre+100
+            },0)
+            if(slots.expandeRowRender&&w){
+              w=w+50
+            }
+            return w
         })
         const styles = computed(() => {//指定height，固定表头
             console.log(totalWidth)
@@ -184,8 +203,35 @@ export default defineComponent({
             }
         }
         const filt = (item:ColumnItem) => {
+            dataSource.splice(0,dataSource.length)
+            dataSource.push(...nativeData)
             isFilt.value = true
             //筛选等于filtWords中的数据
+            for(let i=dataSource.length-1;i>=0;i--){
+                let elem = dataSource[i]
+                let flag: boolean = false
+                for(let words of filtWords){
+                    if(item.onFilter&&item.onFilter(words,elem))
+                       flag = true 
+                }
+                if(!flag){
+                    dataSource.splice(i,1)
+                }
+            }
+        }
+        const reset = () => {
+            isFilt.value = false
+            dataSource.splice(0,dataSource.length)
+            dataSource.push(...nativeData)
+        }
+        const expande = (e:Event,data:any) => {
+            const dom:any = e.target
+            if(!data.expand){
+               dom.classList.add("zhankai")
+            }else{
+               dom.classList.remove("zhankai")
+            }
+            data.expand = !Boolean(data.expand)
         } 
         return {
             columns,
@@ -202,7 +248,9 @@ export default defineComponent({
             descend,
             filt,
             isFilt,
-            getFiltWords
+            getFiltWords,
+            reset,
+            expande   
         }
     }
 
@@ -231,6 +279,30 @@ export default defineComponent({
         bottom: -130px;
         visibility: hidden;
     }
+}
+@keyframes rotate {
+    0%{
+        transform: rotateZ(0deg);
+    }
+    100%{
+        transform: rotateZ(90deg);
+    }
+}
+@keyframes rotate2 {
+    0%{
+        transform: rotateZ(90deg);
+    }
+    100%{
+        transform: rotateZ(-90deg);
+    }
+}
+.zhankai{
+    animation-name: rotate;
+    animation-duration: 500ms;
+    animation-fill-mode: forwards;
+}
+.icon-zhankai1{
+    transition: all 500ms;
 }
 *{
     padding:0;

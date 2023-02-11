@@ -70,6 +70,9 @@
     </template>
     <template #footer><h4>表尾</h4></template>
     <template #title><h4>标题</h4></template>
+    <template #expandeRowRender="{record}">
+      {{record.describe}}
+    </template>
   </rd-table>
   <hr>
   <rd-table :columns="columns" :dataSource="data" :width="600" strip>
@@ -116,6 +119,7 @@ type TableData = {
   sex:string;
   age:number;
   address:string;
+  describe:string;
 }
 const columns = [
   {
@@ -164,6 +168,7 @@ const datas = [
     sex:'man',
     age: 32,
     address: 'New York No. 1 Lake Park',
+    describe:"I am John Brown, a hansome man.Working in ByteDance as a front"
   },
   {
     key: '2',
@@ -171,6 +176,7 @@ const datas = [
     sex: 'femal',
     age: 42,
     address: 'London No. 1 Lake Park',
+    describe:"I am Jim Green, a miss, fall in love with John Brown"
   },
   {
     key: '3',
@@ -178,6 +184,7 @@ const datas = [
     sex: 'man',
     age: 32,
     address: 'Sidney No. 1 Lake Park',
+    describe: "I am Joe Black,I am 32 years old"
   },
   {
     key: '4',
@@ -185,6 +192,7 @@ const datas = [
     sex: 'femal',
     age: 35,
     address: 'Sidney No. 1 Lake Park',
+    describe: "I am Joe Green ,I am dreaming to work for ByteDance"
   },
   {
     key: '5',
@@ -192,6 +200,7 @@ const datas = [
     sex: 'man',
     age: 37,
     address: 'Sidney No. 1 Lake Park',
+    describe: "I am Joe Json, 37 years old"
   },
   {
     key: '6',
@@ -199,6 +208,7 @@ const datas = [
     sex: 'man',
     age: 39,
     address: 'Sidney No. 1 Lake Park',
+    describe: "I am Joe Jackson, 39 years old"
   },
 ];
 const data = reactive(datas)
