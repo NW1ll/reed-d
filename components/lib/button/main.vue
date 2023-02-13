@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineProps, useSlots } from "vue";
+import { computed, useSlots } from "vue";
 const props = defineProps({
   theme: {
     type: String,
@@ -67,7 +67,7 @@ console.log(classes);
 
 <script lang="ts">
 export default {
-  name: "rButton",
+  name: "RdButton",
 };
 </script>
 
