@@ -10,9 +10,16 @@
   <g-button btnType="success">提交</g-button>
   <g-button btnType="warning">提交</g-button>
   <rd-select></rd-select>
+  <hr />
+  <rd-breadcrumb separator="/">
+    <rd-breadcrumb-item :to="{ path: '/1' }">Home</rd-breadcrumb-item>
+    <rd-breadcrumb-item>test1</rd-breadcrumb-item>
+    <rd-breadcrumb-item :to="{ path: '2' }">test2</rd-breadcrumb-item>
+    <rd-breadcrumb-item :to="{ path: '3' }">test3</rd-breadcrumb-item>
+  </rd-breadcrumb>
 </template>
 
-<style lang="less">
+<style scoped lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -37,4 +44,6 @@ nav {
 <script setup lang="ts">
 import RdSelect from "~/lib/select/main.vue";
 import RdButton from "~/lib/button/main.vue";
+import RdBreadcrumbItem from "~/lib/breadcrumb/src/breadcrumb-item.vue";
+import RdBreadcrumb from "~/lib/breadcrumb/src/breadcrum.vue";
 </script>
