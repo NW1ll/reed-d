@@ -61,7 +61,7 @@ export default defineComponent({
             return arr
         })
         const handleError = () => {
-            src.value = 'http://8.142.19.67:3000/images/unload.jpg'
+            src.value = require('./asserts/images/img.png')
         }
         return {
             src,
