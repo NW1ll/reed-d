@@ -10,6 +10,7 @@
   <g-button btnType="success">提交</g-button>
   <g-button btnType="warning">提交</g-button>
   <rd-select></rd-select>
+  <rd-input></rd-input>
 </template>
 
 <style lang="less">
