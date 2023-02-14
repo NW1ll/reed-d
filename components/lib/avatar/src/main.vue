@@ -1,6 +1,6 @@
 <template>
     <div :class='classes' :style="div_styles">
-        <img v-if='src' :src='src' :style="img_styles"  @error="handleError" />
+        <img v-if='src' :alt='alt' :src='src' :style="img_styles"  @error="handleError" />
         <slot></slot>
     </div>
 </template>
@@ -12,6 +12,10 @@ import type { PropType } from 'vue'
 export default defineComponent({
     name: 'rd-avatar',
     props: {
+        alt: {
+            type: String as PropType<string>,
+            default: '加载失败'
+        },
         size: {
             type: [String,Number] as PropType<Size>,
             default: 'default'
@@ -38,7 +42,7 @@ export default defineComponent({
         }
     },
     setup(props){
-        const {imgSrc,size,shape,padding,shade,bg} = (props)
+        const {imgSrc,size,shape,padding,shade,bg,alt} = (props)
         const src = ref<string|undefined>(imgSrc)
         const img_styles = computed(() => ({
          borderRadius: shape === 'square'? '0px':'100%' 
@@ -64,6 +68,7 @@ export default defineComponent({
             src.value = require('./asserts/images/img.png')
         }
         return {
+            alt,
             src,
             img_styles,
             div_styles,
