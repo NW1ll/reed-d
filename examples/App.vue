@@ -53,7 +53,7 @@
     <template #title>标题</template>
   </rd-table>
   <hr>
-  <rd-table :columns="columns" :dataSource="data" strip>
+  <rd-table @expand = "handleExpand" :columns="columns" :dataSource="data" strip>
     <template #headerCell="{column}">
       <template v-if="column.key=='name'">
         <span>😊{{column.title}}</span>
@@ -75,7 +75,7 @@
     </template>
   </rd-table>
   <hr>
-  <rd-table :columns="columns" :dataSource="data" :width="600" strip>
+  <rd-table :columns="columns" :dataSource="data" :scroll="{width:600}" strip>
     <template #headerCell="{column}">
       <template v-if="column.key=='name'">
         <span>😊{{column.title}}</span>
@@ -93,7 +93,7 @@
    
   </rd-table>
   <hr>
-  <rd-table :columns="columns" :dataSource="data"  :height="200" strip>
+  <rd-table :columns="columns" :dataSource="data" :scroll="{height:200}" strip>
     <template #headerCell="{column}">
       <template v-if="column.key=='name'">
         <span>😊{{column.title}}</span>
@@ -224,6 +224,9 @@ const edit = (record:Data,index:number) => {
 }
 const del = (record:Data,index:number) => {
   console.log(record,index)
+}
+const handleExpand = (record:Data) => {
+  console.log(record)
 }
 </script>
 <style lang="scss">

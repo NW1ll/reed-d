@@ -134,19 +134,18 @@ export default defineComponent({
             type: Boolean as PropType<boolean>,
             default: false
         },
-        width: { //指定表格的宽度，会在水平方向加滚动条
-            type: Number as PropType<number>
-        },
-        height: {//指定表格tbody高度，会在tbody垂直方向加滚动条
-            type: Number as PropType<number>
-        },
         loading: {//是否加载中
             type: Boolean as PropType<boolean>
+        },
+        scroll: {//指定表格宽度高度，自动加滚动条
+            type: Object as PropType<{width?:number, height?:number}>
         }
     },
-    setup(props,{slots}){
+    setup(props,{slots,emit}){
         console.log(slots.bodyCell)
-        const { columns,strip, width, height, loading } = props
+        const { columns,strip,  loading, scroll } = props
+        const width = scroll?.width
+        const height = scroll?.height
         const dataSource = reactive(props.dataSource)
         const nativeData = JSON.parse(JSON.stringify(dataSource)) //拷贝一份原生的数据保存
         const totalWidth = computed(() => {
@@ -232,6 +231,7 @@ export default defineComponent({
                dom.classList.remove("zhankai")
             }
             data.expand = !Boolean(data.expand)
+            emit('expand', data);
         } 
         return {
             columns,
