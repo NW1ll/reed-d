@@ -1,6 +1,6 @@
 <template>
     <div :class='classes' :style="div_styles">
-        <img v-if='src' :alt='alt' :src='src' :style="img_styles"  @error="handleError" />
+        <img v-if='src' :alt="alt" :src='src' :style="img_styles"  @error="handleError" />
         <slot></slot>
     </div>
 </template>
@@ -13,7 +13,7 @@ export default defineComponent({
     name: 'rd-avatar',
     props: {
         alt: {
-            type: String as PropType<string>,
+            type: String as PropType<String>,
             default: '加载失败'
         },
         size: {
@@ -39,6 +39,9 @@ export default defineComponent({
         bg: {
             type: String,
             default: 'white'
+        },
+        loadError: {
+            type:Function as PropType<() => boolean>
         }
     },
     setup(props){
@@ -65,7 +68,11 @@ export default defineComponent({
             return arr
         })
         const handleError = () => {
-            src.value = require('./asserts/images/img.png')
+            if(props.loadError){
+                props.loadError()
+            }else{
+                console.log("图片加载失败!")
+            }
         }
         return {
             alt,
@@ -90,9 +97,10 @@ $default-background: #c0cccb;
 }
 .avatar{
     display: inline-block;
+    box-sizing: border-box;
     text-align: center;
-    font-size: 100%;
     img{
+        font-size: 10px;
         width:100%;
         height:100%;
     }

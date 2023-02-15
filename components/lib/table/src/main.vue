@@ -9,7 +9,7 @@
                 </colgroup>
                 <thead>
                     <tr>
-                       <th :colspan="columns.length+1" style="padding:0px;border:none">
+                       <th :colspan="cols+1" style="padding:0px;border:none">
                         <slot name="title"></slot>
                         </th>  
                     </tr>
@@ -30,7 +30,7 @@
                                         </template>
                                         <hr>
                                         <button style="margin-right:5px;padding:2px;margin-top:3px" @click="reset">重置</button>
-                                        <button style="padding:2px;margin-top:3px" @click="filt(item)">确定</button>
+                                        <button style="padding:2px;margin-top:3px" @click="filt(item)" data-test="shaixuan">确定</button>
                                     </rd-pop>
                                 </div>
                             </span>
@@ -55,11 +55,11 @@
                         :style="{width:(item?.width?item.width:200)+'px'}"/>
                     </colgroup>
                     <template v-if="!loading">
-                        <tbody v-if="dataSource.length>0">
+                        <tbody v-if="rows>0">
                         <template  v-for="(data,index) in dataSource" :key="index">
                             <tr>
                                 <td v-if="$slots.expandeRowRender">
-                                    <span @click="expande($event,data)" class="iconfont icon-zhankai1" style="font-size:16px"></span>
+                                    <span data-test="zhankai" @click="expande($event,data)" class="iconfont icon-zhankai1" style="font-size:16px"></span>
                                 </td>
                                 <td v-for="(item,index1) in columns" :key="item.key"
                                 :class="index1==0&&width?'colsticky':''">
@@ -73,7 +73,7 @@
                                 </td>
                             </tr>
                             <tr v-if="$slots.expandeRowRender&&data.expand">
-                                <td :colspan="columns.length+1">
+                                <td :colspan="cols+1">
                                     <slot name="expandeRowRender" :record="data"></slot>
                                 </td>
                             </tr>
@@ -81,16 +81,18 @@
                     </tbody>
                     <tbody v-else style="text-align:center">
                         <tr>
-                            <th :colspan="columns.length">
-                                 <img style="width:200px;height:200px" 
+                            <th :colspan="cols">
+                                <slot name="emptyText">
+                                    <img style="width:200px;height:200px" 
                                 src="./assets/images/empty.png"/>
+                                </slot>    
                             </th>    
                         </tr>
                     </tbody>
                     </template>
                     <tbody v-else style="text-align:center">
                         <tr>
-                            <th :colspan="columns.length"
+                            <th :colspan="cols"
                              style="padding-top:100px">
                                  <img class="load-img" 
                                  style="width:80px;height:80px" 
@@ -98,15 +100,17 @@
                             </th>    
                         </tr>
                         <tr>
-                            <td :colspan="columns.length" 
+                            <td :colspan="cols" 
                             style="background-color:white;padding-bottom:100px">
+                            <slot name="loadingText">
                                 <span style="color:gray">加载中...</span>
+                            </slot>  
                             </td>
                         </tr>
                     </tbody>
                     <tfoot>
                        <tr>
-                            <th :colspan="columns.length"><slot name="footer"></slot></th>
+                            <th :colspan="cols"><slot name="footer"></slot></th>
                         </tr> 
                     </tfoot>
             </table>
@@ -115,7 +119,7 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, PropType, computed, ref, reactive } from 'vue'
+import { defineComponent, PropType, computed, ref, reactive, toRefs } from 'vue'
 import { ColumnItem, DataSource } from './types'
 import rdPop from './pop.vue'
 export default defineComponent({
@@ -134,19 +138,22 @@ export default defineComponent({
             type: Boolean as PropType<boolean>,
             default: false
         },
-        width: { //指定表格的宽度，会在水平方向加滚动条
-            type: Number as PropType<number>
-        },
-        height: {//指定表格tbody高度，会在tbody垂直方向加滚动条
-            type: Number as PropType<number>
+        border: {//表格是否显示边框
+            type: Boolean as PropType<boolean>,
+            default: false
         },
         loading: {//是否加载中
             type: Boolean as PropType<boolean>
+        },
+        scroll: {//指定表格宽度高度，自动加滚动条
+            type: Object
         }
     },
-    setup(props,{slots}){
+    setup(props,{slots,emit}){
         console.log(slots.bodyCell)
-        const { columns,strip, width, height, loading } = props
+        const { columns,strip,  loading, scroll, border } = props
+        const width = scroll?.width
+        const height = scroll?.height   
         const dataSource = reactive(props.dataSource)
         const nativeData = JSON.parse(JSON.stringify(dataSource)) //拷贝一份原生的数据保存
         const totalWidth = computed(() => {
@@ -160,6 +167,18 @@ export default defineComponent({
               w=w+50
             }
             return w
+        })
+        const cols = computed(() => {//列数
+            if(columns)
+                return columns.length;
+            else
+                return 0;
+        })
+        const rows = computed(() => {//行数
+            if(dataSource)
+                return dataSource.length;
+            else
+                return 0;
         })
         const styles = computed(() => {//指定height，固定表头
             console.log(totalWidth)
@@ -177,20 +196,26 @@ export default defineComponent({
             if(width){
                 return {
                     width:width+'px',
-                    overflowX: 'scroll'
+                    overflowX: 'scroll',
+                    border: border? '1px solid #F0F0F0':''
                 }
             }
-            return {width:totalWidth.value+'px'}
+            return {
+                width:totalWidth.value+'px',
+                border: border? '1px solid #F0F0F0':''
+            }
         })
         const sortOrder = ref<'asc'|'desc'|''>('');
         const isFilt = ref<boolean>(false);
         const ascend = (item:ColumnItem) => {
             sortOrder.value='asc'
             dataSource.sort(item.sort)
+            emit('change',toRefs(dataSource))
         }
         const descend = (item:ColumnItem) => {
             sortOrder.value='desc'
             dataSource.sort(item.sort).reverse()
+            emit('change',toRefs(dataSource))
         }
         const filtWords: string[] = []
         const getFiltWords = (e:InputEvent) => {
@@ -218,6 +243,7 @@ export default defineComponent({
                     dataSource.splice(i,1)
                 }
             }
+            emit('change',toRefs(dataSource))
         }
         const reset = () => {
             isFilt.value = false
@@ -232,10 +258,13 @@ export default defineComponent({
                dom.classList.remove("zhankai")
             }
             data.expand = !Boolean(data.expand)
+            emit('expand', data);
         } 
         return {
             columns,
             dataSource,
+            rows,
+            cols,
             strip,
             styles,
             xstyles,
