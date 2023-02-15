@@ -53,7 +53,7 @@
     <template #title>标题</template>
   </rd-table>
   <hr>
-  <rd-table @expand = "handleExpand" :columns="columns" :dataSource="data" strip>
+  <rd-table @change="handleChange" @expand = "handleExpand" :columns="columns" :dataSource="data" border strip>
     <template #headerCell="{column}">
       <template v-if="column.key=='name'">
         <span>😊{{column.title}}</span>
@@ -227,6 +227,9 @@ const del = (record:Data,index:number) => {
 }
 const handleExpand = (record:Data) => {
   console.log(record)
+}
+const handleChange = (dataSource:TableData) => {
+  console.log(dataSource)
 }
 </script>
 <style lang="scss">
