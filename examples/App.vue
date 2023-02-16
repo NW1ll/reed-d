@@ -9,7 +9,14 @@
   <g-button btnType="default">提交</g-button>
   <g-button btnType="success">提交</g-button>
   <g-button btnType="warning">提交</g-button>
-  <rd-select></rd-select>
+  <rd-select
+    id="select"
+    style="width: 300px"
+    :options="options"
+    v-model="value"
+    clearable
+    multiple
+  />
   <hr />
   <rd-avatar
     :padding="5"
@@ -142,7 +149,7 @@
   </rd-table>
 </template>
 <script setup lang="ts">
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import RdSelect from "~/lib/select/main.vue";
 import RdButton from "~/lib/button/main.vue";
 type TableData = {
@@ -263,6 +270,64 @@ const handleExpand = (record: Data) => {
 const handleChange = (dataSource: TableData) => {
   console.log(dataSource);
 };
+const value = ref(["song0", "song3", "song4"]);
+const options = [
+  {
+    label: "Everybody's Got Something to Hide Except Me and My Monkey",
+    value: "song0",
+    disabled: true,
+  },
+  {
+    label: "Drive My Car",
+    value: "song1",
+  },
+  {
+    label: "Norwegian Wood",
+    value: "song2",
+  },
+  {
+    label: "You Won't See",
+    value: "song3",
+    disabled: true,
+  },
+  {
+    label: "Nowhere Man",
+    value: "song4",
+  },
+  {
+    label: "Think For Yourself",
+    value: "song5",
+  },
+  {
+    label: "The Word",
+    value: "song6",
+  },
+  {
+    label: "Michelle",
+    value: "song7",
+    disabled: true,
+  },
+  {
+    label: "What goes on",
+    value: "song8",
+  },
+  {
+    label: "Girl",
+    value: "song9",
+  },
+  {
+    label: "I'm looking through you",
+    value: "song10",
+  },
+  {
+    label: "In My Life",
+    value: "song11",
+  },
+  {
+    label: "Wait",
+    value: "song12",
+  },
+];
 </script>
 <style lang="scss">
 #app {

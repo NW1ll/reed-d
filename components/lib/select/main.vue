@@ -1,20 +1,20 @@
 <template>
   <div
-    class="jw-select"
+    class="rd-select"
     :tabindex="disabled ? '' : -1"
     ref="selectRef"
     :class="{
       'is-disabled': disabled,
     }"
   >
-    <div v-if="!multiple" class="jw-base-select" :tabindex="disabled ? '' : -1">
-      <div v-show="modelLabel" class="jw-select-label">{{ modelLabel }}</div>
-      <div v-show="!modelLabel" class="jw-select-placeholder">
+    <div v-if="!multiple" class="rd-base-select" :tabindex="disabled ? '' : -1">
+      <div v-show="modelLabel" class="rd-select-label">{{ modelLabel }}</div>
+      <div v-show="!modelLabel" class="rd-select-placeholder">
         {{ placeholder }}
       </div>
       <jw-icon
         :size="18"
-        class="jw-select-suffix"
+        class="rd-select-suffix"
         @mousemove="clearable ? (closeVisible = true) : ''"
         @mouseleave="clearable ? (closeVisible = false) : ''"
         color="rgba(194, 194, 194, 1)"
@@ -26,21 +26,20 @@
         <IosArrowDown v-else />
       </jw-icon>
     </div>
-    <div class="jw-base-select jw-select-tags" v-if="multiple">
+    <div class="rd-base-select rd-select-tags" v-if="multiple">
       <jw-tag
         closeable
         v-for="(item, index) in modelLabel"
         :key="index"
         @close="handleClear(item)"
-        >{{ item }}</jw-tag
-      >
-      <div v-show="modelLabel.length === 0" class="jw-select-placeholder">
+        >{{ item }}
+      </jw-tag>
+      <div v-show="modelLabel.length === 0" class="rd-select-placeholder">
         {{ placeholder }}
       </div>
-
       <jw-icon
         :size="18"
-        class="jw-select-suffix"
+        class="rd-select-suffix"
         @mousemove="clearable ? (closeVisible = true) : ''"
         @mouseleave="clearable ? (closeVisible = false) : ''"
         color="rgba(194, 194, 194, 1)"
@@ -52,10 +51,10 @@
         <IosArrowDown v-else />
       </jw-icon>
     </div>
-    <div class="jw-select-dropdown">
+    <div class="rd-select-dropdown">
       <div class="no-options" v-show="options.length === 0">无选项</div>
       <span
-        class="jw-select-option"
+        class="rd-select-option"
         :class="{
           'is-active': multiple
             ? modelValue.includes(item.value)
@@ -70,7 +69,7 @@
         <jw-ellipsis>{{ item.label }}</jw-ellipsis>
         <jw-icon
           :size="18"
-          class="jw-select-option-suffix-icon"
+          class="rd-select-option-suffix-icon"
           v-if="multiple && modelValue.includes(item.value)"
         >
           <Check />
@@ -82,10 +81,13 @@
 
 <script setup lang="ts">
 import { ref, nextTick } from "vue";
-// import { IosArrowDown } from "@vicons/ionicons4";
-// import { CloseCircleOutline } from "@vicons/ionicons5";
-// import { Check } from "@vicons/tabler";
+import { IosArrowDown } from "@vicons/ionicons4";
+import { CloseCircleOutline } from "@vicons/ionicons5";
+import { Check } from "@vicons/tabler";
 import { selectProps, selectEmits, useSelect } from "./index";
+import JwIcon from "~/lib/select/dep/icon.vue";
+import JwTag from "~/lib/select/dep/tag.vue";
+import JwEllipsis from "~/lib/select/dep/ellipsis.vue";
 const props = defineProps(selectProps);
 const emits = defineEmits(selectEmits);
 
@@ -144,22 +146,22 @@ export default {
 };
 </script>
 <style lang="scss">
-.jw-select {
+.rd-select {
   width: 100%;
   position: relative;
   cursor: pointer;
 
-  .jw-select-placeholder {
+  .rd-select-placeholder {
     color: rgba(194, 194, 194, 1);
   }
 
-  .jw-select-label,
-  .jw-select-placeholder {
+  .rd-select-label,
+  .rd-select-placeholder {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
   }
-  .jw-base-select {
+  .rd-base-select {
     width: 100%;
     line-height: 34px;
     min-height: 34px;
@@ -187,7 +189,7 @@ export default {
       box-shadow: 0 0 0 2px rgba(24, 160, 88, 0.3);
     }
 
-    .jw-select-suffix {
+    .rd-select-suffix {
       position: absolute;
       right: 5px;
       top: 0;
@@ -198,7 +200,7 @@ export default {
     }
   }
 
-  .jw-select-dropdown {
+  .rd-select-dropdown {
     z-index: 10000;
     position: absolute;
     border-radius: 3px;
@@ -225,7 +227,7 @@ export default {
       justify-content: center;
     }
 
-    .jw-select-option {
+    .rd-select-option {
       z-index: 10000;
       display: inline-block;
       cursor: pointer;
@@ -241,7 +243,7 @@ export default {
       background-color: #fff;
       position: relative;
 
-      .jw-select-option-suffix-icon {
+      .rd-select-option-suffix-icon {
         position: absolute;
         height: 100%;
         display: flex;
@@ -269,22 +271,22 @@ export default {
       }
 
       &.is-multiple {
-        padding-right: 30px;
+        padding-right: 0px;
       }
     }
   }
 
-  &:hover .jw-select-dropdown {
+  &:hover .rd-select-dropdown {
     pointer-events: auto;
   }
-  &:focus-within .jw-select-dropdown {
+  &:focus-within .rd-select-dropdown {
     opacity: 1;
     height: 300px;
     width: 100%;
     pointer-events: auto;
   }
 
-  &:focus-within .jw-base-select {
+  &:focus-within .rd-base-select {
     outline: none;
     border-color: #18a058;
     box-shadow: 0 0 0 2px rgba(24, 160, 88, 0.3);
@@ -293,7 +295,7 @@ export default {
   &.is-disabled {
     cursor: not-allowed;
   }
-  &.is-disabled .jw-base-select {
+  &.is-disabled .rd-base-select {
     cursor: not-allowed;
     background-color: #fafafc;
     color: rgba(194, 194, 194, 1);
