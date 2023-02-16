@@ -1,6 +1,6 @@
 import { App } from "vue";
-import rButton from "../button/src/main.vue";
-rButton.install = (app: App): void => {
-  app.component(rButton.name, rButton);
+import rdButton from "../button/src/main.vue";
+rdButton.install = (app: App): void => {
+  app.component(rdButton.name, rdButton);
 };
-export default rButton;
+export default rdButton;

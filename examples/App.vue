@@ -4,11 +4,60 @@
     <router-link to="/about">About</router-link>
   </nav>
   <router-view />
-  <r-Button>确认</r-Button>
   <hr />
-  <g-button btnType="default">提交</g-button>
-  <g-button btnType="success">提交</g-button>
-  <g-button btnType="warning">提交</g-button>
+  <rd-button type="primary">提交</rd-button>
+  <rd-button>提交</rd-button>
+  <rd-button type="dashed">提交</rd-button>
+  <rd-button type="text">text</rd-button>
+  <rd-button type="link">link</rd-button>
+  <br/>
+  <rd-button shape="round" type="primary">提交</rd-button>
+  <rd-button shape="circle" type="primary">O</rd-button>
+  <br/>
+  <rd-button type="primary" size="large">确定</rd-button>
+  <rd-button size="small">确定</rd-button>
+  <br/>
+  <rd-button type="primary" danger>提交</rd-button>
+  <rd-button danger>提交</rd-button>
+  <rd-button type="dashed" danger>提交</rd-button>
+  <rd-button type="text" danger>text</rd-button>
+  <rd-button type="link" danger>link</rd-button>
+  <br/>
+  <rd-button type="primary" size="middle" shape="circle">
+    <span class="iconfont icon-sousuo-xianxing"></span>
+  </rd-button>
+  <rd-button shape="round">
+    <template #icon-left>
+      <span class="iconfont icon-sousuo-xianxing"></span>
+    </template>
+    搜索
+  </rd-button>
+  <rd-button type="primary" loading>
+    加载中...
+  </rd-button>
+  <rd-button type="primary" loading size="middle" shape='circle'></rd-button>
+  <br/>
+  <div style="width:500px;margin:0 auto">
+    <rd-button block>
+      <template #icon-left><span class="iconfont icon-sousuo-xianxing"></span></template>
+      搜索
+    </rd-button>
+    <br/>
+    <rd-button block type="dashed" shape="round">提交</rd-button>
+    <br/>
+    <rd-button block type="primary">确定</rd-button>
+  </div>
+  <br/>
+  <rd-button disabled>
+      发送(disabled)
+  </rd-button>
+  <rd-button type="text" disabled>
+    text(disabled)
+  </rd-button>
+   <rd-button type="link" disabled>
+    link(disabled)
+  </rd-button>
+  <hr/>
   <rd-avatar :padding='5' shade imgSrc="http://8.142.19.67:3000/images/cat1.jpg"/>
   <rd-avatar :padding='2' shade imgSrc="http://8.142.19.97:3000/images/cat.jpg"/>
   <rd-avatar :padding='2' shade shape="square" imgSrc="http://8.142.19.67:3000/images/cat2.jpg"/>
@@ -240,7 +289,9 @@ const handleChange = (dataSource:TableData) => {
   text-align: center;
   color: #2c3e50;
 }
-
+*{
+  margin:10px;
+}
 nav {
   padding: 30px;
 
