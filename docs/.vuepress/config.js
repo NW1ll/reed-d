@@ -8,7 +8,7 @@ module.exports = {
         ],
         sidebar: [
             '/',
-            '/componentDocs/button'
+            '/componentDocs/rd-card'
         ]
     }
-  }
+  }     

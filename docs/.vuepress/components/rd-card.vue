@@ -15,7 +15,7 @@
 
 <script lang="ts">
 export default{
-    name : "m-card",  
+    name : "rd-card",  
     props: {
         width: {
             type: Number,
@@ -37,7 +37,7 @@ export default{
 }
 </script>
 
-<style lang="scss">
+<style lang="less">
 .m-card {
     width: 270px;
     background-color: #fff;
