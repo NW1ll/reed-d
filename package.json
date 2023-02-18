@@ -6,9 +6,15 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs"
   },
   "dependencies": {
+    "@vicons/ionicons4": "^0.12.0",
+    "@vicons/ionicons5": "^0.12.0",
+    "@vicons/tabler": "^0.12.0",
+    "@vicons/utils": "^0.1.4",
     "core-js": "^3.8.3",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3"
@@ -43,7 +49,9 @@
     "sass": "^1.58.0",
     "sass-loader": "^13.2.0",
     "ts-jest": "^27.0.4",
-    "typescript": "~4.5.5"
+    "typescript": "~4.5.5",
+    "vue-template-compiler": "^2.7.14",
+    "vuepress": "^1.9.8"
   },
   "eslintConfig": {
     "root": true,
@@ -80,7 +88,6 @@
     "not ie 11"
   ],
   "gitHooks": {
-    "pre-commit": "lint-staged"
   },
   "lint-staged": {
     "*.{js,jsx,vue,ts,tsx}": "vue-cli-service lint"
