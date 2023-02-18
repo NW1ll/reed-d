@@ -12,11 +12,11 @@
   <rd-select
     id="select"
     style="width: 300px"
-    :options="options"
     v-model="value"
+    :options="options"
     clearable
-    multiple
-  />
+    remote
+  ></rd-select>
   <hr />
   <rd-avatar
     :padding="5"
@@ -150,8 +150,6 @@
 </template>
 <script setup lang="ts">
 import { reactive, ref } from "vue";
-import RdSelect from "~/lib/select/main.vue";
-import RdButton from "~/lib/button/main.vue";
 type TableData = {
   key: string;
   name: string;

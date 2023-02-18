@@ -1,13 +1,58 @@
 <template>
   <div
+    v-if="remote"
+    class="rd-select"
+    :class="{
+      'is-disabled': disabled,
+      'is-visible': !remote,
+    }"
+  >
+    <input
+      type="text"
+      class="rd-base-select"
+      v-model="inputValue"
+      @input="handleInput"
+    />
+    <div class="rd-select-dropdown">
+      <div class="no-options" v-show="options1.length === 0">无选项</div>
+      <span
+        class="rd-select-option"
+        :class="{
+          'is-active': multiple
+            ? modelValue.includes(item.value)
+            : modelValue === item.value,
+          'is-multiple': multiple,
+        }"
+        v-for="item in options1"
+        :key="item.value"
+        @click="handleOptionClick(item)"
+      >
+        <jw-ellipsis>{{ item.label }}</jw-ellipsis>
+        <jw-icon
+          :size="18"
+          class="rd-select-option-suffix-icon"
+          v-if="multiple && modelValue.includes(item.value)"
+        >
+          <Check />
+        </jw-icon>
+      </span>
+    </div>
+  </div>
+  <div
+    v-else
     class="rd-select"
     :tabindex="disabled ? '' : -1"
     ref="selectRef"
     :class="{
       'is-disabled': disabled,
+      'is-visible': !remote,
     }"
   >
-    <div v-if="!multiple" class="rd-base-select" :tabindex="disabled ? '' : -1">
+    <div
+      v-show="!multiple"
+      class="rd-base-select"
+      :tabindex="disabled ? '' : -1"
+    >
       <div v-show="modelLabel" class="rd-select-label">{{ modelLabel }}</div>
       <div v-show="!modelLabel" class="rd-select-placeholder">
         {{ placeholder }}
@@ -80,7 +125,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, nextTick } from "vue";
+import { ref, nextTick, onMounted } from "vue";
 import { IosArrowDown } from "@vicons/ionicons4";
 import { CloseCircleOutline } from "@vicons/ionicons5";
 import { Check } from "@vicons/tabler";
@@ -91,7 +136,103 @@ import JwEllipsis from "~/lib/select/dep/ellipsis.vue";
 const props = defineProps(selectProps);
 const emits = defineEmits(selectEmits);
 
+interface ListItem {
+  value: string;
+  label: string;
+}
+const inputValue = ref();
+const handleInput1 = () => {
+  if (inputValue.value) {
+    let query = inputValue.value;
+    setTimeout(() => {
+      options1.value = list.value.filter((item) => {
+        return item.label.toLowerCase().includes(query.toLowerCase());
+      });
+    }, 200);
+  } else {
+    options1.value = [];
+  }
+};
+const handleInput = debounce(handleInput1, 500);
+
+const list = ref<ListItem[]>([]);
+const options1 = ref<ListItem[]>([]);
 const selectRef = ref();
+onMounted(() => {
+  console.log(options);
+  list.value = states.map((item) => {
+    return { value: `value:${item}`, label: `label:${item}` };
+  });
+});
+
+//func 是事件处理程序，delay 是事件执行的延迟时间，单位：毫秒
+function debounce(func, delay) {
+  var timer = null;
+  return function () {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    var that = this;
+    var args = arguments;
+    //每次触发事件 都把定时器清掉重新计时
+    clearTimeout(timer);
+    timer = setTimeout(function () {
+      //执行事件处理程序
+      func.call(that, args);
+    }, delay);
+  };
+}
+
+const states = [
+  "Alabama",
+  "Alaska",
+  "Arizona",
+  "Arkansas",
+  "California",
+  "Colorado",
+  "Connecticut",
+  "Delaware",
+  "Florida",
+  "Georgia",
+  "Hawaii",
+  "Idaho",
+  "Illinois",
+  "Indiana",
+  "Iowa",
+  "Kansas",
+  "Kentucky",
+  "Louisiana",
+  "Maine",
+  "Maryland",
+  "Massachusetts",
+  "Michigan",
+  "Minnesota",
+  "Mississippi",
+  "Missouri",
+  "Montana",
+  "Nebraska",
+  "Nevada",
+  "New Hampshire",
+  "New Jersey",
+  "New Mexico",
+  "New York",
+  "North Carolina",
+  "North Dakota",
+  "Ohio",
+  "Oklahoma",
+  "Oregon",
+  "Pennsylvania",
+  "Rhode Island",
+  "South Carolina",
+  "South Dakota",
+  "Tennessee",
+  "Texas",
+  "Utah",
+  "Vermont",
+  "Virginia",
+  "Washington",
+  "West Virginia",
+  "Wisconsin",
+  "Wyoming",
+];
 const {
   options,
   modelValue,
@@ -101,6 +242,7 @@ const {
   clearable,
   closeVisible,
   multiple,
+  remote,
 } = useSelect(props, emits);
 
 const handleOptionClick = (item) => {
@@ -112,12 +254,15 @@ const handleOptionClick = (item) => {
         : modelValue.value.push(item.value);
       emits("update:modelValue", modelValue.value);
       emits("change", modelValue.value);
-    }
-
-    if (!multiple.value) {
+    } else if (!multiple.value && !remote) {
       selectRef.value.blur();
       emits("update:modelValue", item.value);
       emits("change", item.value);
+    } else {
+      emits("update:modelValue", item.value);
+      emits("change", item.value);
+      console.log(item);
+      inputValue.value = item.label;
     }
   }
 };
