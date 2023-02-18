@@ -1,7 +1,7 @@
 <template>
   <div class="rd-tabs">
     <div :class="headerClasses" ref="container">
-      <slot name="left-extra"></slot>
+      <slot name="leftExtra"></slot>
       <tabItem
         v-for="item in tabItems"
         :key="item.key"
@@ -16,7 +16,7 @@
           <img class="icon" src="item.url" />
         </template>
       </tabItem>
-      <slot name="right-extra"></slot>
+      <slot name="rightExtra"></slot>
     </div>
     <div class="rd-tabs-content">{{ tabItems[activeKey - 1].context }}</div>
   </div>
@@ -34,7 +34,7 @@ const { activeKey, tabCentered, tabType, tabSize, tabItems, tabPosition } =
   useTabs(props, emits);
 
 const tabChange = (e) => {
-  activeKey.value = e.target.dataset.idx;
+  activeKey.value = parseInt(e.target.dataset.idx);
 };
 
 const headerClasses = computed(() => {
