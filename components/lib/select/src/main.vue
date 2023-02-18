@@ -130,9 +130,10 @@ import { IosArrowDown } from "@vicons/ionicons4";
 import { CloseCircleOutline } from "@vicons/ionicons5";
 import { Check } from "@vicons/tabler";
 import { selectProps, selectEmits, useSelect } from "./index";
+import JwEllipsis from "~/lib/select/dep/ellipsis.vue";
 import JwIcon from "~/lib/select/dep/icon.vue";
 import JwTag from "~/lib/select/dep/tag.vue";
-import JwEllipsis from "~/lib/select/dep/ellipsis.vue";
+
 const props = defineProps(selectProps);
 const emits = defineEmits(selectEmits);
 
