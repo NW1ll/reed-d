@@ -20,10 +20,5 @@ npm run build
 npm run lint
 ```
 
-### documentation
-```
-npm run docs:dev
-```
-
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).

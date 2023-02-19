@@ -16,6 +16,7 @@
     "@vicons/tabler": "^0.12.0",
     "@vicons/utils": "^0.1.4",
     "core-js": "^3.8.3",
+    "identity-obj-proxy": "^3.0.0",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3"
   },
@@ -43,6 +44,7 @@
     "eslint-plugin-react-hooks": "^4.3.0",
     "eslint-plugin-vue": "^8.0.3",
     "jest": "^27.0.5",
+    "less-loader": "^11.1.0",
     "lint-staged": "^11.1.2",
     "node-sass": "^8.0.0",
     "prettier": "^2.4.1",
@@ -50,8 +52,7 @@
     "sass-loader": "^13.2.0",
     "ts-jest": "^27.0.4",
     "typescript": "~4.5.5",
-    "vue-template-compiler": "^2.7.14",
-    "vuepress": "^1.9.8"
+    "vuepress": "^2.0.0-beta.60"
   },
   "eslintConfig": {
     "root": true,
@@ -87,8 +88,7 @@
     "not dead",
     "not ie 11"
   ],
-  "gitHooks": {
-  },
+  "gitHooks": {},
   "lint-staged": {
     "*.{js,jsx,vue,ts,tsx}": "vue-cli-service lint"
   }
