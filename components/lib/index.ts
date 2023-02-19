@@ -1,6 +1,7 @@
 import { App } from "vue";
-import RdButton from "./button/main.vue";
+import rButton from "./button/src/main.vue";
 import gButton from "./button2/main.vue";
+
 import RdSelect from "./select/main.vue";
 import RdBreadcrumb from "./breadcrumb/src/breadcrumb.vue";
 import RdBreadcrumbItem from "./breadcrumb/src/breadcrumb-item.vue";
@@ -16,12 +17,20 @@ const components = [
   RdChenckbox,
   RdCheckboxGroup
 ];
+
+import rdAvatar from "./avatar/index";
+import rdTable from "./table/index";
+import rdSelect from "./select/src/main.vue";
+
+
 const install = (app: App): void => {
   components.map((component) => {
     app.component(component.name, component);
   });
 };
+
 export { gButton, RdButton, RdSelect, RdBreadcrumb, RdBreadcrumbItem, RdCheckboxGroup, RdChenckbox };
+
 
 export default {
   install,
