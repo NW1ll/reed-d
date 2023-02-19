@@ -1,7 +1,6 @@
 import { defineUserConfig } from 'vuepress'
 import { defaultTheme } from '@vuepress/theme-default'
-
-
+import { demoblockPlugin } from 'vuepress-plugin-demoblock-plus'
 export default defineUserConfig({
     lang: 'zh-CN',
     title: '你好， VuePress ！',
@@ -44,5 +43,23 @@ export default defineUserConfig({
             { text: 'Guide', link: '/guide/' },
             { text: 'External', link: 'https://google.com' },
         ]
+
     }),
+    plugins: [
+        demoblockPlugin({customClass: 'demoblock-custom',
+          // theme: 'github-light',
+          cssPreprocessor: 'less',
+          scriptReplaces: [
+            { searchValue: /const ({ defineComponent as _defineComponent }) = Vue/g,
+              replaceValue: 'const { defineComponent: _defineComponent } = Vue'
+            }
+          ]
+        })
+    ],
     })
+
+
+
+
+
+

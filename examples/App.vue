@@ -15,7 +15,6 @@
     v-model="value"
     :options="options"
     clearable
-    remote
   ></rd-select>
   <hr />
   <rd-avatar
