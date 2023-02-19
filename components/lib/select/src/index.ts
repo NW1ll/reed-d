@@ -4,6 +4,10 @@ export const selectProps = {
   modelValue: {
     type: [String, Number, Boolean, Object],
   },
+  remote: {
+    type: Boolean,
+    default: false,
+  },
   options: {
     type: Array,
     default: () => [],
@@ -28,14 +32,12 @@ export const selectProps = {
 
 export const selectEmits = ["update:modelValue", "change", "clear"];
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 export const useSelect = (props, emits) => {
   const options = computed(() => props.options);
 
   const clearable = computed(() => props.clearable);
   const closeVisible = ref(false);
-
+  const remote = computed(() => props.remote);
   const multiple = computed(() => props.multiple);
 
   const modelValue = computed(() => props.modelValue);
@@ -67,5 +69,6 @@ export const useSelect = (props, emits) => {
     clearable,
     closeVisible,
     multiple,
+    remote,
   };
 };
