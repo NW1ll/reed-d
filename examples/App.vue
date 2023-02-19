@@ -1,4 +1,5 @@
-<template><!-- <nav>
+<template>
+  <nav>
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link>
   </nav>
@@ -16,11 +17,11 @@
     <rd-breadcrumb-item :to="{ path: '/2' }">test2</rd-breadcrumb-item>
     <rd-breadcrumb-item :to="{ path: '/3' }">test3</rd-breadcrumb-item>
   </rd-breadcrumb>
-  <hr /> -->
-    <rd-checkbox v-model="checkAll" :indeterminate="isIndeterminate" @change="handleCheckAllChange" label="全选" />
-    <rd-checkbox-group @change="handleCheckedCitiesChange" v-model="checkedCities" size="large">
-      <rd-checkbox v-for="city in cities" :key="city" :label="city" />
-    </rd-checkbox-group>
+  <hr />
+  <rd-checkbox v-model="checkAll" :indeterminate="isIndeterminate" @change="handleCheckAllChange" label="全选" />
+  <rd-checkbox-group @change="handleCheckedCitiesChange" v-model="checkedCities" size="large">
+    <rd-checkbox v-for="city in cities" :key="city" :label="city" />
+  </rd-checkbox-group>
 </template>
 
 <style scoped lang="scss">
@@ -49,7 +50,7 @@ nav {
 import RdSelect from "~/lib/select/main.vue";
 import RdButton from "~/lib/button/main.vue";
 import RdBreadcrumbItem from "~/lib/breadcrumb/src/breadcrumb-item.vue";
-import RdBreadcrumb from "~/lib/breadcrumb/src/breadcrum.vue";
+import RdBreadcrumb from "~/lib/breadcrumb/src/breadcrumb.vue";
 import RdCheckbox from "~/lib/Ckeckbox/src/Checkbox.vue";
 import RdCheckboxGroup from "~/lib/Ckeckbox/src/CheckboxGroup.vue";
 import { ref } from "vue";
