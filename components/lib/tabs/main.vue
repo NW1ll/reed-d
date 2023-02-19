@@ -5,12 +5,15 @@
       <tabItem
         v-for="item in tabItems"
         :key="item.key"
+        :v-if="tabEditable && !item.closed"
         :data-idx="item.key"
         :type="tabType"
         :title="item.title"
+        :removable="tabEditable && !item.disabled"
         :isActive="activeKey == item.key"
         :disabled="item.disabled"
         @click="tabChange"
+        @tabClose="tabClose"
       >
         <template v-if="item.url" #icon>
           <img class="icon" src="item.url" />
@@ -18,7 +21,9 @@
       </tabItem>
       <slot name="rightExtra"></slot>
     </div>
-    <div class="rd-tabs-content">{{ tabItems[activeKey - 1].context }}</div>
+    <div class="rd-tabs-content">
+      {{ tabItems[activeKey - 1].context }}
+    </div>
   </div>
 </template>
 
@@ -30,18 +35,25 @@ import tabItem from "./tab/tabNode.vue";
 const props = defineProps(tabProps);
 const emits = defineEmits(tabEmits);
 
-const { activeKey, tabCentered, tabType, tabSize, tabItems, tabPosition } =
+const { activeKey, tabCentered, tabType, tabSize, tabItems, tabEditable } =
   useTabs(props, emits);
 
 const tabChange = (e) => {
   activeKey.value = parseInt(e.target.dataset.idx);
 };
 
+const tabClose = (e) => {
+  const closeid = parseInt(e.target.parentElement.dataset.idx);
+  if (activeKey.value == closeid && activeKey.value != 1) {
+    activeKey.value--;
+  }
+  tabItems.value[closeid - 1].closed = true;
+};
+
 const headerClasses = computed(() => {
   return {
     [`rd-tabs-header`]: true,
     [`rd-tabs-header-${tabSize.value}`]: tabSize,
-    [`rd-tabs-header-${tabPosition.value}`]: tabPosition,
     [`rd-tabs-header-${tabCentered.value ? "centered" : ""}`]: tabCentered,
   };
 });
@@ -97,9 +109,11 @@ $h: 40px;
 .rd-tabs-header-small {
   height: 30px;
   font-size: 14px;
+  font-weight: 300;
 }
 .rd-tabs-header-large {
   height: 50px;
   font-size: 18px;
+  font-weight: 500;
 }
 </style>

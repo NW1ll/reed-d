@@ -2,7 +2,13 @@
   <view :class="itemClass" @click="handleClick">
     <slot name="icon"></slot>
     {{ tabTitle }}
-    <slot></slot>
+    <view
+      v-if="type == 'card' && tabRemovable"
+      class="rd-tab-item-close-btn"
+      @click.prevent.stop="handleClose"
+    >
+      x
+    </view>
   </view>
 </template>
 
@@ -13,10 +19,15 @@ import { tabItemProps, tabItemEmits, useTab } from "../index";
 const props = defineProps(tabItemProps);
 const emits = defineEmits(tabItemEmits);
 
-const { tabType, tabTitle, tabActive, tabDisabled, handleClick } = useTab(
-  props,
-  emits
-);
+const {
+  tabType,
+  tabTitle,
+  tabActive,
+  tabDisabled,
+  tabRemovable,
+  handleClick,
+  handleClose,
+} = useTab(props, emits);
 
 const itemClass = computed(() => {
   return {
@@ -52,7 +63,6 @@ $disabled-color: #cfcfcf;
   height: 95%;
   line-height: 94%;
   min-width: 80px;
-  font-size: 14px;
   text-align: center;
   cursor: pointer;
   color: $color;
@@ -79,6 +89,16 @@ $disabled-color: #cfcfcf;
   cursor: not-allowed;
   &:hover {
     color: $disabled-color;
+  }
+}
+.rd-tab-item-close-btn {
+  position: relative;
+  float: left;
+  left: 10px;
+  color: #dddddd;
+  &:hover {
+    color: #b4b4b4;
+    font-weight: bold;
   }
 }
 </style>
