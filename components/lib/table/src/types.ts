@@ -8,3 +8,4 @@ export interface ColumnItem {
     sort? : (arg1:any,arg2:any)=>number ;
 }
 export type DataSource = Object[]
+export type ScrollType = { width?: number, height?: number}

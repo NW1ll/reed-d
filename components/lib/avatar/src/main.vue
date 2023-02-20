@@ -45,7 +45,7 @@ export default defineComponent({
         }
     },
     setup(props){
-        const {imgSrc,size,shape,padding,shade,bg} = (props)
+        const {imgSrc,size,shape,padding,shade,bg,alt} = (props)
         const src = ref<string|undefined>(imgSrc)
         const img_styles = computed(() => ({
          borderRadius: shape === 'square'? '0px':'100%' 
@@ -75,6 +75,7 @@ export default defineComponent({
             }
         }
         return {
+            alt,
             src,
             img_styles,
             div_styles,

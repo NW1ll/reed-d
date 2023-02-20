@@ -146,14 +146,14 @@ export default defineComponent({
             type: Boolean as PropType<boolean>
         },
         scroll: {//指定表格宽度高度，自动加滚动条
-            type: Object as PropType<{width?:number, height?:number}>
+            type: Object
         }
     },
     setup(props,{slots,emit}){
         console.log(slots.bodyCell)
         const { columns,strip,  loading, scroll, border } = props
         const width = scroll?.width
-        const height = scroll?.height
+        const height = scroll?.height   
         const dataSource = reactive(props.dataSource)
         const nativeData = JSON.parse(JSON.stringify(dataSource)) //拷贝一份原生的数据保存
         const totalWidth = computed(() => {
