@@ -7,7 +7,7 @@ import RdCheckboxGroup from "./Ckeckbox/src/CheckboxGroup.vue";
 import rdAvatar from "./avatar/index";
 import rdTable from "./table/index";
 import rdSelect from "./select/src/main.vue";
-
+import rdButton from "./button/index";
 const components = [
   RdSelect,
   RdBreadcrumb,
@@ -16,7 +16,8 @@ const components = [
   RdCheckboxGroup,
   rdAvatar,
   rdTable,
-  rdSelect
+  rdSelect,
+  rdButton
 ];
 
 
@@ -35,7 +36,8 @@ export {
   RdCheckboxGroup,
   rdAvatar,
   rdTable,
-  rdSelect };
+  rdSelect,
+  rdButton};
 
 
 export default {
