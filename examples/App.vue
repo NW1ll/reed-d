@@ -9,324 +9,24 @@
   <g-button btnType="default">提交</g-button>
   <g-button btnType="success">提交</g-button>
   <g-button btnType="warning">提交</g-button>
-  <rd-select
-    id="select"
-    style="width: 300px"
-    v-model="value"
-    :options="options"
-    clearable
-  ></rd-select>
+<<<<<<< HEAD
+  <rd-select></rd-select>
   <hr />
-  <rd-avatar
-    :padding="5"
-    shade
-    imgSrc="http://8.142.19.67:3000/images/cat1.jpg"
-  />
-  <rd-avatar
-    :padding="2"
-    shade
-    imgSrc="http://8.142.19.97:3000/images/cat.jpg"
-  />
-  <rd-avatar
-    :padding="2"
-    shade
-    shape="square"
-    imgSrc="http://8.142.19.67:3000/images/cat2.jpg"
-  />
-  <rd-avatar size="small" bg="green">Tom</rd-avatar>
-  <rd-avatar bg="pink">Alen</rd-avatar>
-  <rd-avatar bg="blue">Jack</rd-avatar>
-  <rd-table :columns="columns" :dataSource="[]" loading strip>
-    <template #headerCell="{ column }">
-      <template v-if="column.key == 'name'">
-        <span>😊{{ column.title }}</span>
-      </template>
-    </template>
-    <template #bodyCell="{ column, text, index, record }">
-      <template v-if="column.key == 'name'">
-        <a href="">{{ text }}</a>
-      </template>
-      <template v-if="column.key == 'action'">
-        <button @click="edit(record, index)">编辑</button>
-        <button @click="del(record, index)">删除</button>
-      </template>
-    </template>
-    <template #footer><h4>表尾</h4></template>
-    <template #title><h4>标题</h4></template>
-  </rd-table>
+  <rd-breadcrumb separator="/">
+    <rd-breadcrumb-item :to="{ path: '/1' }">Home</rd-breadcrumb-item>
+    <rd-breadcrumb-item>test1</rd-breadcrumb-item>
+    <rd-breadcrumb-item :to="{ path: '/2' }">test2</rd-breadcrumb-item>
+    <rd-breadcrumb-item :to="{ path: '/3' }">test3</rd-breadcrumb-item>
+  </rd-breadcrumb>
   <hr />
-  <rd-table :columns="columns" :dataSource="[]" strip>
-    <template #headerCell="{ column }">
-      <template v-if="column.key == 'name'">
-        <span>😊{{ column.title }}</span>
-      </template>
-    </template>
-    <template #bodyCell="{ column, text, index, record }">
-      <template v-if="column.key == 'name'">
-        <a href="">{{ text }}</a>
-      </template>
-      <template v-if="column.key == 'action'">
-        <button @click="edit(record, index)">编辑</button>
-        <button @click="del(record, index)">删除</button>
-      </template>
-    </template>
-    <template #footer><h4>表尾</h4></template>
-    <template #title>标题</template>
-  </rd-table>
-  <hr />
-  <rd-table
-    @change="handleChange"
-    @expand="handleExpand"
-    :columns="columns"
-    :dataSource="data"
-    border
-    strip
-  >
-    <template #headerCell="{ column }">
-      <template v-if="column.key == 'name'">
-        <span>😊{{ column.title }}</span>
-      </template>
-    </template>
-    <template #bodyCell="{ column, text, index, record }">
-      <template v-if="column.key == 'name'">
-        <a href="">{{ text }}</a>
-      </template>
-      <template v-if="column.key == 'action'">
-        <button @click="edit(record, index)">编辑</button>
-        <button @click="del(record, index)">删除</button>
-      </template>
-    </template>
-    <template #footer><h4>表尾</h4></template>
-    <template #title><h4>标题</h4></template>
-    <template #expandeRowRender="{ record }">
-      {{ record.describe }}
-    </template>
-  </rd-table>
-  <hr />
-  <rd-table
-    :columns="columns"
-    :dataSource="data"
-    :scroll="{ width: 600 }"
-    strip
-  >
-    <template #headerCell="{ column }">
-      <template v-if="column.key == 'name'">
-        <span>😊{{ column.title }}</span>
-      </template>
-    </template>
-    <template #bodyCell="{ column, text, index, record }">
-      <template v-if="column.key == 'name'">
-        <a href="">{{ text }}</a>
-      </template>
-      <template v-if="column.key == 'action'">
-        <button @click="edit(record, index)">编辑</button>
-        <button @click="del(record, index)">删除</button>
-      </template>
-    </template>
-  </rd-table>
-  <hr />
-  <rd-table
-    :columns="columns"
-    :dataSource="data"
-    :scroll="{ height: 200 }"
-    strip
-  >
-    <template #headerCell="{ column }">
-      <template v-if="column.key == 'name'">
-        <span>😊{{ column.title }}</span>
-      </template>
-    </template>
-    <template #bodyCell="{ column, text, index, record }">
-      <template v-if="column.key == 'name'">
-        <a href="">{{ text }}</a>
-      </template>
-      <template v-if="column.key == 'action'">
-        <button @click="edit(record, index)">编辑</button>
-        <button @click="del(record, index)">删除</button>
-      </template>
-    </template>
-  </rd-table>
+  <rd-checkbox v-model="checkAll" :indeterminate="isIndeterminate" @change="handleCheckAllChange" label="全选" />
+  <rd-checkbox-group @change="handleCheckedCitiesChange" v-model="checkedCities" size="large">
+    <rd-checkbox v-for="city in cities" :key="city" :label="city" />
+  </rd-checkbox-group>
 </template>
-<script setup lang="ts">
-import { reactive, ref } from "vue";
-type TableData = {
-  key: string;
-  name: string;
-  sex: string;
-  age: number;
-  address: string;
-  describe: string;
-};
-const columns = [
-  {
-    title: "Name",
-    dataIndex: "name",
-    key: "name",
-    width: 300,
-  },
-  {
-    title: "Sex",
-    dataIndex: "sex",
-    key: "sex",
-    width: 200,
-    filters: [
-      { text: "man", value: "man" },
-      { text: "femal", value: "femal" },
-    ],
-    onFilter: (value: string, record: TableData) => {
-      return record.sex === value;
-    },
-  },
-  {
-    title: "Age",
-    dataIndex: "age",
-    key: "age",
-    sort: (arg1: TableData, arg2: TableData) => {
-      return arg1.age - arg2.age;
-    },
-  },
-  {
-    title: "Address",
-    dataIndex: "address",
-    key: "address",
-    width: 300,
-  },
-  {
-    title: "action",
-    key: "action",
-    width: 300,
-  },
-];
-const datas = [
-  {
-    key: "1",
-    name: "John Brown",
-    sex: "man",
-    age: 32,
-    address: "New York No. 1 Lake Park",
-    describe: "I am John Brown, a hansome man.Working in ByteDance as a front",
-  },
-  {
-    key: "2",
-    name: "Jim Green",
-    sex: "femal",
-    age: 42,
-    address: "London No. 1 Lake Park",
-    describe: "I am Jim Green, a miss, fall in love with John Brown",
-  },
-  {
-    key: "3",
-    name: "Joe Black",
-    sex: "man",
-    age: 32,
-    address: "Sidney No. 1 Lake Park",
-    describe: "I am Joe Black,I am 32 years old",
-  },
-  {
-    key: "4",
-    name: "Joe Green",
-    sex: "femal",
-    age: 35,
-    address: "Sidney No. 1 Lake Park",
-    describe: "I am Joe Green ,I am dreaming to work for ByteDance",
-  },
-  {
-    key: "5",
-    name: "Joe Json",
-    sex: "man",
-    age: 37,
-    address: "Sidney No. 1 Lake Park",
-    describe: "I am Joe Json, 37 years old",
-  },
-  {
-    key: "6",
-    name: "Joe Jackson",
-    sex: "man",
-    age: 39,
-    address: "Sidney No. 1 Lake Park",
-    describe: "I am Joe Jackson, 39 years old",
-  },
-];
-const data = reactive(datas);
-type Data = {
-  key: string;
-  name: string;
-  age: number;
-  address: string;
-};
-const edit = (record: Data, index: number) => {
-  console.log(record, index);
-  record.age = 18;
-};
-const del = (record: Data, index: number) => {
-  console.log(record, index);
-};
-const handleExpand = (record: Data) => {
-  console.log(record);
-};
-const handleChange = (dataSource: TableData) => {
-  console.log(dataSource);
-};
-const value = ref(["song0", "song3", "song4"]);
-const options = [
-  {
-    label: "Everybody's Got Something to Hide Except Me and My Monkey",
-    value: "song0",
-    disabled: true,
-  },
-  {
-    label: "Drive My Car",
-    value: "song1",
-  },
-  {
-    label: "Norwegian Wood",
-    value: "song2",
-  },
-  {
-    label: "You Won't See",
-    value: "song3",
-    disabled: true,
-  },
-  {
-    label: "Nowhere Man",
-    value: "song4",
-  },
-  {
-    label: "Think For Yourself",
-    value: "song5",
-  },
-  {
-    label: "The Word",
-    value: "song6",
-  },
-  {
-    label: "Michelle",
-    value: "song7",
-    disabled: true,
-  },
-  {
-    label: "What goes on",
-    value: "song8",
-  },
-  {
-    label: "Girl",
-    value: "song9",
-  },
-  {
-    label: "I'm looking through you",
-    value: "song10",
-  },
-  {
-    label: "In My Life",
-    value: "song11",
-  },
-  {
-    label: "Wait",
-    value: "song12",
-  },
-];
-</script>
-<style lang="scss">
+=======
+>>>>>>> 2ae60525f777f85e3ee6824acf1f2d5ac7467deb
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -348,3 +48,15 @@ nav {
   }
 }
 </style>
+<<<<<<< HEAD
+<script setup lang="ts">
+import RdSelect from "~/lib/select/main.vue";
+import RdButton from "~/lib/button/main.vue";
+import RdBreadcrumbItem from "~/lib/breadcrumb/src/breadcrumb-item.vue";
+import RdBreadcrumb from "~/lib/breadcrumb/src/breadcrumb.vue";
+import RdCheckbox from "~/lib/Ckeckbox/src/Checkbox.vue";
+import RdCheckboxGroup from "~/lib/Ckeckbox/src/CheckboxGroup.vue";
+import { ref } from "vue";
+=======
+>>>>>>> 2ae60525f777f85e3ee6824acf1f2d5ac7467deb
+
